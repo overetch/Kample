@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "84176377836",
+    "firebase_url": "https://kample-154116.firebaseio.com",
+    "project_id": "kample-154116",
+    "storage_bucket": "kample-154116.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:84176377836:android:a09d798cccfdecb8",
+        "android_client_info": {
+          "package_name": "com.overetch.kample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "84176377836-0hdlc5ukobeek1caboett2tlbmme9ooi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.overetch.kample",
+            "certificate_hash": "DB67743734A6A0AC5D2F548EF3707F3ECEE619DE"
+          }
+        },
+        {
+          "client_id": "84176377836-1gou3qed247dfhep5ob2pmsrs6uq0phr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADhXT8Xzgk0xIAvWABR2vqm2cOpun2F-U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "84176377836-1gou3qed247dfhep5ob2pmsrs6uq0phr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

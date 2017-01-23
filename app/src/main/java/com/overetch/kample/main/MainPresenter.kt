@@ -3,12 +3,8 @@ package com.overetch.kample.main
 import android.util.Log
 import com.overetch.kample.api.ApiService
 import com.overetch.kample.data.Movie
-import org.jetbrains.anko.custom.async
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.onComplete
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.util.*
 
 /**
@@ -28,7 +24,7 @@ class MainPresenter(private val mainView: MainContract.View) : MainContract.Pres
         doAsync {
             val response = ApiService().instance().getRandomMovie().execute()
             onComplete {
-                if(isRefreshing){
+                if (isRefreshing) {
                     mainView.onRefreshFinished()
                 }
                 if (response.isSuccessful) {
@@ -37,6 +33,7 @@ class MainPresenter(private val mainView: MainContract.View) : MainContract.Pres
                     mainView.showMovies(list)
                 }
             }
+
         }
 //        ApiService().instance().getRandomMovie().enqueue(object : Callback<Movie> {
 //            override fun onResponse(call: Call<Movie>?, response: Response<Movie>?) {
@@ -46,7 +43,7 @@ class MainPresenter(private val mainView: MainContract.View) : MainContract.Pres
 //            }
 //
 //            override fun onFailure(call: Call<Movie>?, t: Throwable?) {
-//                Log.d("abc", "abc")
+//
 //            }
 //        })
 
@@ -54,8 +51,6 @@ class MainPresenter(private val mainView: MainContract.View) : MainContract.Pres
 
     override fun refresh() {
         loadMovies(true)
-//        mainView.onRefreshFinished()
-
     }
 
     private fun createRandomObjects(): ArrayList<Movie> {

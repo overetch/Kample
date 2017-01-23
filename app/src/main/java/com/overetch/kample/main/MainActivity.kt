@@ -20,7 +20,6 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     lateinit var mPresenter: MainContract.Presenter
     lateinit var mAdapter: MainListAdapter
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -35,9 +34,8 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     }
 
     private fun createPresenter() {
-        MainPresenter(mainView = this)
+        MainPresenter(this)
     }
-
 
     override fun onResume() {
         super.onResume()
@@ -72,7 +70,6 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(intent)
-
     }
 
     private fun setUpToolbar() {

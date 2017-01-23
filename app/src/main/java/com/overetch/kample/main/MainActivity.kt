@@ -3,23 +3,18 @@ package com.overetch.kample.main
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
+import android.support.v4.app.Fragment
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
+import com.overetch.kample.ActivityUtils
 import com.overetch.kample.R
-import com.overetch.kample.data.Movie
-import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.support.v4.onRefresh
-import java.util.*
 
 
-class MainActivity : AppCompatActivity(), MainContract.View {
+class MainActivity : AppCompatActivity() {
 
     lateinit var mDrawerLayout: DrawerLayout
-    lateinit var mPresenter: MainContract.Presenter
-    lateinit var mAdapter: MainListAdapter
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -29,17 +24,17 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     private fun init() {
         setUpToolbar()
         setUpNavigationDrawer()
-        createPresenter()
-        mSwiperRefreshLayout.onRefresh { mPresenter.refresh() }
+        createFragmentAndPresenter()
     }
 
-    private fun createPresenter() {
-        MainPresenter(this)
-    }
+    private fun createFragmentAndPresenter() {
 
-    override fun onResume() {
-        super.onResume()
-        mPresenter.start()
+        var mainFragment: MainFragment? = supportFragmentManager.findFragmentById(R.id.contentFrame) as MainFragment?
+        if (mainFragment == null) {
+            mainFragment = MainFragment()
+            ActivityUtils().addFragmentToActivity(supportFragmentManager, mainFragment, R.id.contentFrame)
+        }
+        MainPresenter(mainFragment)
     }
 
     private fun setUpNavigationDrawer() {
@@ -47,7 +42,6 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         mDrawerLayout.setStatusBarBackground(R.color.colorPrimaryDark)
         val navigationView = findViewById(R.id.nav_view) as NavigationView
         setupDrawerContent(navigationView)
-
     }
 
     private fun setupDrawerContent(navigationView: NavigationView) {
@@ -81,18 +75,6 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         actionBar?.setDisplayShowHomeEnabled(true)
     }
 
-    override fun setPresenter(presenter: MainContract.Presenter) {
-        mPresenter = presenter
-        mPresenter.loadMovies()
-    }
-
-    override fun showMovies(movies: ArrayList<Movie>) {
-        mAdapter = MainListAdapter(movies)
-        mRecyclerView.adapter = mAdapter
-    }
-    override fun onRefreshFinished() {
-        mSwiperRefreshLayout.isRefreshing = false
-    }
 
 }
 

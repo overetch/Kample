@@ -32,7 +32,8 @@ class MainActivity : AppCompatActivity() {
         var mainFragment: MainFragment? = supportFragmentManager.findFragmentById(R.id.contentFrame) as MainFragment?
         if (mainFragment == null) {
             mainFragment = MainFragment()
-            ActivityUtils().addFragmentToActivity(supportFragmentManager, mainFragment, R.id.contentFrame)
+            ActivityUtils.addFragmentToActivity(supportFragmentManager, mainFragment, R.id.contentFrame)
+
         }
         MainPresenter(mainFragment)
     }

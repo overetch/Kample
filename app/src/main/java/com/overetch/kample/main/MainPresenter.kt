@@ -1,10 +1,12 @@
 package com.overetch.kample.main
 
-import android.util.Log
 import com.overetch.kample.api.ApiService
 import com.overetch.kample.data.Movie
+import org.jetbrains.anko.custom.async
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.onComplete
+import org.jetbrains.anko.uiThread
+import java.security.interfaces.DSAPrivateKey
 import java.util.*
 
 /**
@@ -18,39 +20,25 @@ class MainPresenter(private val mainView: MainContract.View) : MainContract.Pres
     }
 
     override fun start() {
+
     }
 
-    override fun loadMovies(isRefreshing: Boolean) {
+    override fun loadMovies() {
+        mainView.onRefreshStarted()
         doAsync {
             val response = ApiService().instance().getRandomMovie().execute()
             onComplete {
-                if (isRefreshing) {
-                    mainView.onRefreshFinished()
-                }
                 if (response.isSuccessful) {
                     val list = ArrayList<Movie>()
                     list.add(response!!.body())
                     mainView.showMovies(list)
+                    mainView.onRefreshFinished()
                 }
             }
-
         }
-//        ApiService().instance().getRandomMovie().enqueue(object : Callback<Movie> {
-//            override fun onResponse(call: Call<Movie>?, response: Response<Movie>?) {
-//                val list = ArrayList<Movie>()
-//                list.add(response!!.body())
-//                mainView.showMovies(list)
-//            }
-//
-//            override fun onFailure(call: Call<Movie>?, t: Throwable?) {
-//
-//            }
-//        })
-
     }
 
     override fun refresh() {
-        loadMovies(true)
     }
 
     private fun createRandomObjects(): ArrayList<Movie> {

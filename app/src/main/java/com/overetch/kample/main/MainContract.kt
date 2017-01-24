@@ -13,11 +13,12 @@ interface MainContract {
     interface View : BaseView<Presenter> {
         fun showMovies(movies: ArrayList<Movie>)
         fun onRefreshFinished()
+        fun onRefreshStarted()
     }
 
 
     interface Presenter : BasePresenter {
-        fun loadMovies(isRefreshing : Boolean = false)
+        fun loadMovies()
         fun refresh()
     }
 }

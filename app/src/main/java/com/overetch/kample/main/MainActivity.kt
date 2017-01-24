@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         var mainFragment: MainFragment? = supportFragmentManager.findFragmentById(R.id.contentFrame) as MainFragment?
         if (mainFragment == null) {
             mainFragment = MainFragment()
-            ActivityUtils.addFragmentToActivity(supportFragmentManager, mainFragment, R.id.contentFrame)
+            ActivityUtils.addFragmentToActivity(supportFragmentManager, mainFragment)
 
         }
         MainPresenter(mainFragment)
@@ -48,10 +48,10 @@ class MainActivity : AppCompatActivity() {
     private fun setupDrawerContent(navigationView: NavigationView) {
         navigationView.setNavigationItemSelectedListener { menuItem: MenuItem ->
             when (menuItem.itemId) {
-                R.id.list_navigation_menu_item -> { /*do nothing, we're already on that screen*/
+                R.id.menu_item_fragment_first -> { /*do nothing, we're already on that screen*/
                 }
                 R.id.statistics_navigation_menu_item -> {
-                    openStatisticsActivity()
+//                    ActivityUtils.addFragmentToActivity(supportFragmentManager,)
                 }
             }
             menuItem.isChecked = true

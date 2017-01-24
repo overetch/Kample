@@ -11,9 +11,9 @@ import android.support.v4.app.FragmentTransaction;
 
 public class ActivityUtils {
     public static void addFragmentToActivity (@NonNull FragmentManager fragmentManager,
-                                              @NonNull Fragment fragment, int frameId) {
+                                              @NonNull Fragment fragment) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(frameId, fragment);
+        transaction.add(R.id.contentFrame, fragment);
         transaction.commit();
     }
 }

@@ -3,7 +3,6 @@ package com.overetch.kample.main
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
-import android.support.v4.app.Fragment
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -15,6 +14,7 @@ import com.overetch.kample.R
 class MainActivity : AppCompatActivity() {
 
     lateinit var mDrawerLayout: DrawerLayout
+    lateinit var mDebugDrawer: DrawerLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         setUpToolbar()
         setUpNavigationDrawer()
         createFragmentAndPresenter()
+
     }
 
     private fun createFragmentAndPresenter() {
@@ -33,9 +34,7 @@ class MainActivity : AppCompatActivity() {
         if (mainFragment == null) {
             mainFragment = MainFragment()
             ActivityUtils.addFragmentToActivity(supportFragmentManager, mainFragment)
-
         }
-        MainPresenter(mainFragment)
     }
 
     private fun setUpNavigationDrawer() {
@@ -43,6 +42,11 @@ class MainActivity : AppCompatActivity() {
         mDrawerLayout.setStatusBarBackground(R.color.colorPrimaryDark)
         val navigationView = findViewById(R.id.nav_view) as NavigationView
         setupDrawerContent(navigationView)
+        setUpDebugDrawer()
+    }
+
+    private fun setUpDebugDrawer() {
+
     }
 
     private fun setupDrawerContent(navigationView: NavigationView) {

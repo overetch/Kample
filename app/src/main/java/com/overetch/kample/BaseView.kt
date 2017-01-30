@@ -16,8 +16,9 @@
 
 package com.overetch.kample
 
-interface BaseView<T> {
+import com.arellomobile.mvp.MvpView
 
+interface BaseView<T> {
     fun setPresenter(presenter: T)
 
 }

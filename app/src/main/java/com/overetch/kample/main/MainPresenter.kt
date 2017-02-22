@@ -17,16 +17,15 @@ import java.util.*
 class MainPresenter : MvpPresenter<MainView>() {
     private var count: Int = 0
 
-    init {
-        viewState.onItemCount(count)
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        loadMovies()
     }
-
 
     fun loadMovies() {
         viewState.onRefreshStarted()
         doAsync {
             val response = ApiService().instance().getRandomMovie().execute()
-            SystemClock.sleep(3500)
             onComplete {
                 if (response.isSuccessful) {
                     val list = ArrayList<Movie>()

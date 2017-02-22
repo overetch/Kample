@@ -1,4 +1,4 @@
-package com.overetch.kample
+package com.overetch.kample.utils
 
 import android.content.Context
 

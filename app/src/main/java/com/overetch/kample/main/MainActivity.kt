@@ -1,20 +1,42 @@
 package com.overetch.kample.main
 
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.design.widget.NavigationView
+import android.support.v4.app.Fragment
 import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
-import com.overetch.kample.ActivityUtils
+import com.arellomobile.mvp.MvpAppCompatActivity
+import com.arellomobile.mvp.MvpView
+import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
+import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
+import com.overetch.kample.FirstFragment
+import com.overetch.kample.KampleApp
 import com.overetch.kample.R
+import com.overetch.kample.utils.Screens
+import org.jetbrains.anko.toast
+import ru.terrakok.cicerone.Navigator
+import ru.terrakok.cicerone.android.SupportFragmentNavigator
+import android.app.Activity
+import android.app.ActivityManager
 
 
-class MainActivity : AppCompatActivity() {
+
+
+@StateStrategyType(AddToEndSingleStrategy::class)
+class MainActivity : MvpAppCompatActivity(), MvpView {
 
     lateinit var mDrawerLayout: DrawerLayout
     lateinit var mDebugDrawer: DrawerLayout
+    lateinit var navigator: Navigator
+
+    @InjectPresenter
+    lateinit var mPresenter: MainActivityPresenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -22,19 +44,51 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun init() {
+        setNavigator()
         setUpToolbar()
         setUpNavigationDrawer()
-        createFragmentAndPresenter()
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun setNavigator() {
+        navigator = object : SupportFragmentNavigator(supportFragmentManager, R.id.contentFrame) {
+            override fun createFragment(screenKey: String?, data: Any?): Fragment {
+                when (screenKey) {
+                    Screens.SCREEN_ROOT -> return MainFragment()
+                    Screens.SCREEN_FIRST -> return FirstFragment()
+                    Screens.SCREEN_SECOND -> return FirstFragment()
+                    else -> throw RuntimeException("Screen key not found")
+                }
+            }
+
+            override fun exit() {
+                finish()
+            }
+
+            override fun showSystemMessage(message: String?) {
+                toast(message!!)
+            }
+
+        }
 
     }
 
-    private fun createFragmentAndPresenter() {
+    override fun onResume() {
+        super.onResume()
+        KampleApp.INSTANCE.getNavigatorHolder().setNavigator(navigator)
+    }
 
-        var mainFragment: MainFragment? = supportFragmentManager.findFragmentById(R.id.contentFrame) as MainFragment?
-        if (mainFragment == null) {
-            mainFragment = MainFragment()
-            ActivityUtils.addFragmentToActivity(supportFragmentManager, mainFragment)
-        }
+    override fun onPause() {
+        super.onPause()
+        KampleApp.INSTANCE.getNavigatorHolder().removeNavigator()
     }
 
     private fun setUpNavigationDrawer() {
@@ -52,11 +106,8 @@ class MainActivity : AppCompatActivity() {
     private fun setupDrawerContent(navigationView: NavigationView) {
         navigationView.setNavigationItemSelectedListener { menuItem: MenuItem ->
             when (menuItem.itemId) {
-                R.id.menu_item_fragment_first -> { /*do nothing, we're already on that screen*/
-                }
-                R.id.statistics_navigation_menu_item -> {
-//                    ActivityUtils.addFragmentToActivity(supportFragmentManager,)
-                }
+                R.id.menu_item_fragment_first -> mPresenter.navigateTo(Screens.SCREEN_FIRST)
+                R.id.statistics_navigation_menu_item -> mPresenter.navigateTo(Screens.SCREEN_SECOND)
             }
             menuItem.isChecked = true
             mDrawerLayout.closeDrawers()
@@ -81,6 +132,15 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    override fun onBackPressed() {
+        val fragment = supportFragmentManager.findFragmentById(R.id.contentFrame)
+        val fragmentCount = supportFragmentManager.backStackEntryCount
+        if (supportFragmentManager.backStackEntryCount > 1) {
+            super.onBackPressed()
+        } else {
+
+        }
+    }
 }
 
 

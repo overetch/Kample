@@ -59,17 +59,15 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        android:visibility="gone"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/drawer_actions"/>
 
-    <android.support.design.widget.NavigationView
-        android:id="@+id/debug_nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="right"
-        android:fitsSystemWindows="true"
-        android:visibility="gone"
-        app:menu="@menu/drawer_actions"/>
+    <!--<android.support.design.widget.NavigationView-->
+        <!--android:id="@+id/debug_nav_view"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_gravity="start"-->
+        <!--android:fitsSystemWindows="true"-->
+        <!--app:menu="@menu/drawer_actions"/>-->
 
 </android.support.v4.widget.DrawerLayout>

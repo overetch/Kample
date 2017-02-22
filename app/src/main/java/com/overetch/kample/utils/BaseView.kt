@@ -14,8 +14,11 @@
  * limitations under the License.
  */
 
-package com.overetch.kample
+package com.overetch.kample.utils
 
-interface BasePresenter {
-    fun start()
+import com.arellomobile.mvp.MvpView
+
+interface BaseView<T> {
+    fun setPresenter(presenter: T)
+
 }
